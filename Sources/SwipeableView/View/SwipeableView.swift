@@ -27,16 +27,17 @@ public struct SwipeableView<Content: View>: View {
     var leftActions: EditActionsVM
     var rightActions: EditActionsVM    
     let content: Content
+    let minimumDragDistance: Double
     
     @State var finishedOffset: CGSize = .zero
     
-    public init(@ViewBuilder content: () -> Content, leftActions: [Action], rightActions: [Action], rounded: Bool = false, container: SwManager? = nil ) {
+    public init(@ViewBuilder content: () -> Content, leftActions: [Action], rightActions: [Action], rounded: Bool = false, container: SwManager? = nil  , minDragDis : Double = 25.0) {
         
         self.content = content()
         self.leftActions = EditActionsVM(leftActions, maxActions: leftActions.count)
         self.rightActions = EditActionsVM(rightActions, maxActions: rightActions.count)
         self.rounded = rounded
-        
+        self.minimumDragDistance = minDragDis
         viewModel = SWViewModel(state: .center, size: .zero)
         self.container = container
         
@@ -51,7 +52,7 @@ public struct SwipeableView<Content: View>: View {
     
     public var body: some View {
         
-        let dragGesture = DragGesture(minimumDistance: 100.0, coordinateSpace: .global)
+        let dragGesture = DragGesture(minimumDistance: minimumDragDistance, coordinateSpace: .global)
             .onChanged(self.onChanged(value:))
             .onEnded(self.onEnded(value:))
         
