@@ -51,7 +51,7 @@ public struct SwipeableView<Content: View>: View {
     
     public var body: some View {
         
-        let dragGesture = DragGesture(minimumDistance: 1.0, coordinateSpace: .global)
+        let dragGesture = DragGesture(minimumDistance: 100.0, coordinateSpace: .global)
             .onChanged(self.onChanged(value:))
             .onEnded(self.onEnded(value:))
         
